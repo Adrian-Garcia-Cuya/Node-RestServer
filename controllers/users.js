@@ -1,4 +1,6 @@
 import { response } from 'express';
+import bcryptjs from 'bcryptjs';
+import User from '../models/user.js';
 
 const usersGet = (req, res = response) => {
 
@@ -21,14 +23,22 @@ const usersPut = (req, res) => {
     });
 }
 
-const usersPost = (req, res) => {
+const usersPost = async(req, res) => {
 
-    const { name, age } = req.body;
+    const { name, email, password, role } = req.body;
+    const user = new User( {name, email, password, email, role} );
+
+    //Verficar la existencia del correo
+
+    //Encriptacion de la contrasena
+    const salt = bcryptjs.genSaltSync();
+    user.password = bcryptjs.hashSync( password, salt );
+
+    await user.save();
 
     res.status(201).json({
         msg: 'post API - controlador',
-        name,
-        age,
+        user
     });
 }
 
