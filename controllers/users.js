@@ -2,14 +2,21 @@ import { response } from 'express';
 import bcryptjs from 'bcryptjs';
 import User from '../models/user.js';
 
-const usersGet = (req, res = response) => {
+const usersGet = async(req, res = response) => {
+    
+    const { limit = 5, from = 0 } = req.query;
+    const query = { state: true }
 
-    const { q, nombre = "no name"} = req.query;
+    const [ total, users ] = await Promise.all([
+        User.countDocuments(query),
+        User.find(query)
+            .skip(Number(from))
+            .limit(Number(limit))
+    ]);
 
     res.json({
-        msg: 'get API - controlador',
-        q,
-        nombre,
+        total,
+        users
     });
 }
 
@@ -34,7 +41,6 @@ const usersPut = async(req, res) => {
     const { id } = req.params;
     const { _id, password, google, ...rest} = req.body;
 
-    //TODO: Validar contra base de datos
     if( password ){
         //Encriptacion de la contrasena
         const salt = bcryptjs.genSaltSync();
@@ -43,10 +49,7 @@ const usersPut = async(req, res) => {
 
     const user = await User.findByIdAndUpdate( id, rest, { returnDocument: 'after' } );
 
-    res.status(200).json({
-        msg: 'put API - controlador',
-        user
-    });
+    res.status(200).json(user);
 }
 
 const usersDelete = (req, res) => {
