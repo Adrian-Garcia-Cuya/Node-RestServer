@@ -1,7 +1,7 @@
 import Role from '../models/role.js';
 import User from '../models/user.js';
 
-const isValidRole = async(role = '') => {
+const isValidRole = async( role = '' ) => {
 
     const existRole = await Role.findOne({ role });
     if( !existRole ){
@@ -18,6 +18,14 @@ const checkEmail = async( email ) => {
     }
 }
 
+const userExistById = async( id )  => {
+
+    const userExist = await User.findById( id );
+    if( !userExist ){
+        throw new Error(`El id '${ id }' no existe en la base de datos`);
+    }
+}
 
 
-export { isValidRole, checkEmail };
+
+export { isValidRole, checkEmail, userExistById };

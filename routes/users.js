@@ -6,13 +6,18 @@ import {
     usersDelete } from '../controllers/users.js';
 import { check } from 'express-validator';
 import { validateFields } from '../middlewares/validate-fields.js';
-import { isValidRole, checkEmail } from '../helpers/db-validators.js';
+import { isValidRole, checkEmail, userExistById } from '../helpers/db-validators.js';
 
 const router = Router();
 
 router.get('/', usersGet);
 
-router.put('/:id', usersPut);
+router.put('/:id', [
+    check('id', 'No es un ID valido').isMongoId(),
+    check('id').custom( userExistById ),
+    check('role').custom( isValidRole ),
+    validateFields
+], usersPut);
 
 router.post('/', [
     //check -> valida los campos indicados y almacena el resultado en la 'request' (req)
