@@ -20,8 +20,7 @@ const userSchema = new Schema({
     },
     role: {
         type: String,
-        required: true,
-        enum: ['ADMIN_ROLE', 'USER_ROLE'],
+        required: [true, 'El rol es obligatorio'],
     },
     state: {
         type: Boolean,
@@ -33,6 +32,14 @@ const userSchema = new Schema({
     }
 
 });
+
+//Sobreescribiendo el metodo 'toJSON'
+userSchema.methods.toJSON = function() {
+    //toObject -> retorna la representacion de un documento de Mongoose (instancia de un modelo) en un objeto javascript
+    const { __v, password, ...user } = this.toObject();
+
+    return user;
+}
 
 // 'model' -> crea y retorna un modelo(clase) segun las especificaciones dadas en sus argumento.
 //Parametros:

@@ -13,22 +13,10 @@ const usersGet = (req, res = response) => {
     });
 }
 
-const usersPut = (req, res) => {
-
-    const { id } = req.params;
-
-    res.status(400).json({
-        msg: 'put API - controlador',
-        id,
-    });
-}
-
 const usersPost = async(req, res) => {
 
     const { name, email, password, role } = req.body;
     const user = new User( {name, email, password, email, role} );
-
-    //Verficar la existencia del correo
 
     //Encriptacion de la contrasena
     const salt = bcryptjs.genSaltSync();
@@ -37,8 +25,17 @@ const usersPost = async(req, res) => {
     await user.save();
 
     res.status(201).json({
-        msg: 'post API - controlador',
         user
+    });
+}
+
+const usersPut = (req, res) => {
+
+    const { id } = req.params;
+
+    res.status(400).json({
+        msg: 'put API - controlador',
+        id,
     });
 }
 
