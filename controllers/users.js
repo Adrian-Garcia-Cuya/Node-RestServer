@@ -52,9 +52,17 @@ const usersPut = async(req, res) => {
     res.status(200).json(user);
 }
 
-const usersDelete = (req, res) => {
+const usersDelete = async( req, res = response ) => {
+
+    const { id } = req.params;
+
+    //Eliminacion fisica en la base de datos
+    //const user = await User.findByIdAndDelete( id );
+
+    const user = await User.findByIdAndUpdate( id, { state: false } );
+
     res.json({
-        msg: 'delete API - controlador',
+        user
     });
 }
 
