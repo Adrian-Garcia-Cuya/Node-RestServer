@@ -10,10 +10,9 @@ import { isValidRole, checkEmail, userExistById } from '../helpers/db-validators
 
 import { validateFields } from '../middlewares/validate-fields.js';
 import { validateJWT } from '../middlewares/validate-jwt.js';
+import { isAdminRole } from '../middlewares/validate-roles.js';
 
 const router = Router();
-
-
 
 router.get('/',[
     query('from', 'El valor ingresado debe ser un numero').isNumeric().optional(),
@@ -40,6 +39,7 @@ router.post('/', [
 
 router.delete('/:id', [
     validateJWT,
+    isAdminRole,
     check('id', 'No es un ID valido').isMongoId(),
     check('id').custom( userExistById ),
     validateFields
