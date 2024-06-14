@@ -9,26 +9,28 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: [true, 'The email is required'],
-        unique: true,
+        unique: true
     },
     password: {
         type: String,
-        required: [true, 'The password is required']
+        required: [function(){
+            return !this.google
+        }, 'La contrasena es obligatoria']
     },
     img: {
         type: String,
     },
     role: {
         type: String,
-        required: [true, 'El rol es obligatorio'],
+        required: [true, 'El rol es obligatorio']
     },
     state: {
         type: Boolean,
-        default: true,
+        default: true
     },
     google:{
         type: Boolean,
-        default: false,
+        default: false
     }
 
 });
