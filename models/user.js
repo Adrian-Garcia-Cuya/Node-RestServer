@@ -36,7 +36,9 @@ const userSchema = new Schema({
 //Sobreescribiendo el metodo 'toJSON'
 userSchema.methods.toJSON = function() {
     //toObject -> retorna la representacion de un documento de Mongoose (instancia de un modelo) en un objeto javascript
-    const { __v, password, ...user } = this.toObject();
+    const { __v, password, _id,...user } = this.toObject();
+
+    user.uid = _id;
 
     return user;
 }
