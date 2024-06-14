@@ -8,9 +8,12 @@ import {
     usersDelete } from '../controllers/users.js';
 import { isValidRole, checkEmail, userExistById } from '../helpers/db-validators.js';
 
-import { validateFields } from '../middlewares/validate-fields.js';
-import { validateJWT } from '../middlewares/validate-jwt.js';
-import { hasRole, isAdminRole } from '../middlewares/validate-roles.js';
+import {
+    validateFields,
+    validateJWT,
+    hasRole,
+    isAdminRole
+ } from '../middlewares/index.js';
 
 const router = Router();
 
