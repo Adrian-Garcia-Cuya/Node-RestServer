@@ -10,6 +10,8 @@ import { isValidRole, checkEmail, userExistById } from '../helpers/db-validators
 
 const router = Router();
 
+
+
 router.get('/',[
     query('from', 'El valor ingresado debe ser un numero').isNumeric().optional(),
     query('limit', 'El valor ingresado debe ser un numero').isNumeric().optional(),
