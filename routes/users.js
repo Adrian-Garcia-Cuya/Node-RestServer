@@ -10,7 +10,7 @@ import { isValidRole, checkEmail, userExistById } from '../helpers/db-validators
 
 import { validateFields } from '../middlewares/validate-fields.js';
 import { validateJWT } from '../middlewares/validate-jwt.js';
-import { isAdminRole } from '../middlewares/validate-roles.js';
+import { hasRole, isAdminRole } from '../middlewares/validate-roles.js';
 
 const router = Router();
 
@@ -39,7 +39,8 @@ router.post('/', [
 
 router.delete('/:id', [
     validateJWT,
-    isAdminRole,
+    // isAdminRole,
+    hasRole('ADMIN_ROLE', 'USER_ROLE'),
     check('id', 'No es un ID valido').isMongoId(),
     check('id').custom( userExistById ),
     validateFields
