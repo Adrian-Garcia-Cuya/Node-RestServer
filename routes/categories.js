@@ -1,7 +1,11 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 
-import { validateFields } from '../middlewares/validate-fields.js';
+import {
+    validateFields,
+    validateJWT
+ } from '../middlewares/index.js';
+import { storeCategory } from '../controllers/categories.js';
 
 
 const router = Router();
@@ -16,9 +20,11 @@ router.get('/:id', ( req, res ) => {
     res.json('get - id');
 })
 
-router.post('/', ( req, res ) => {
-    res.json('post');
-})
+router.post('/', [
+    validateJWT,
+    check('name', 'El nombre es obligatorio').not().isEmpty(),
+    validateFields
+], storeCategory)
 
 router.put('/:id', ( req, res ) => {
     res.json('put');

@@ -4,7 +4,8 @@ const { Schema, model } = mongoose;
 const categorySchema = new Schema({
     name: {
         type: String,
-        required: [true, 'La categoria es obligatorio']
+        required: [true, 'La categoria es obligatorio'],
+        unique: true
     },
     state: {
         type: Boolean,
@@ -18,5 +19,7 @@ const categorySchema = new Schema({
     }
 });
 
-export default model('Category', categorySchema);
+const Category = model('Category', categorySchema);
+export { Category };
+
 
