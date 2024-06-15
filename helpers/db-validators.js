@@ -1,5 +1,5 @@
-import Role from '../models/role.js';
-import User from '../models/user.js';
+import { Role } from '../models/index.js';
+import { User } from '../models/index.js';
 
 const isValidRole = async( role = '' ) => {
 

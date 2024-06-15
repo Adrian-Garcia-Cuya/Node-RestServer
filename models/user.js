@@ -49,4 +49,5 @@ userSchema.methods.toJSON = function() {
 //Parametros:
 //1. Nombre del modelo
 //2. Estructura/Esquema que tendra el modelo.
-export default model('User', userSchema);
+const User =  model('User', userSchema);
+export { User };
