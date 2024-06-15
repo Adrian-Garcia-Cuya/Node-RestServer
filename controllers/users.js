@@ -1,5 +1,6 @@
 import { response } from 'express';
 import bcryptjs from 'bcryptjs';
+
 import User from '../models/user.js';
 
 const usersGet = async(req, res = response) => {
