@@ -1,12 +1,42 @@
-import { response } from "express";
+import { response, text } from "express";
 
 import {
     Category
 } from '../models/index.js';
 
-const storeCategory = async( req, res = response ) => {
+const index = async( req, res = response ) => {
 
-    const name = req.body.name.toUpperCase();
+    const { limit = 0, from = 0 } = req.query;
+
+    const query = { state: true };
+
+    const [ total, categories] = await Promise.all([
+        Category.countDocuments( query ),
+        Category.find( query )
+        //populate -> obtiene los datos del modelo referenciado
+                .populate('user', 'name')
+                .skip(Number(from))
+                .limit(Number(limit))
+    ]);
+    
+    res.status(200).json({
+        total,
+        categories
+    });
+}
+
+const show = async( req, res = response ) => {
+
+    const { id } = req.params
+
+    const category = await Category.findById( id ).populate('user');
+
+    res.status(200).json( category );
+}
+
+const store = async( req, res = response ) => {
+
+    const name = String(req.body.name).toUpperCase();
 
     const categoryDB = await Category.findOne({ name });
     if( categoryDB ){
@@ -26,4 +56,37 @@ const storeCategory = async( req, res = response ) => {
     res.status(201).json(category);
 }
 
-export { storeCategory };
+const update = async( req, res = response ) => {
+    const { id } = req.params;
+
+    const name = String(req.body.name).toUpperCase();
+
+    const nameExist = await Category.findOne({ name });
+
+    if( nameExist ){
+        return res.json({
+            msg: 'El nombre de la categoria ya se encuentra registrado.'
+        })
+    }
+
+    const category = await Category.findByIdAndUpdate( id, { name }, { returnDocument: 'after' } )
+    
+    res.status(200).json( category );
+}
+
+const destroy = async( req, res = response ) => {
+
+    const { id } = req.params;
+
+    const category = await Category.findByIdAndUpdate( id, { state: false }, { returnDocument: 'after' })
+
+    res.status(200).json( category );
+}
+
+export { 
+    index,
+    show,
+    store,
+    update,
+    destroy
+ };

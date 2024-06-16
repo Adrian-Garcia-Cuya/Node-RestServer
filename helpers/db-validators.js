@@ -1,5 +1,9 @@
-import { Role } from '../models/index.js';
-import { User } from '../models/index.js';
+import { 
+    Category,
+    Role,
+    User
+} from '../models/index.js';
+
 
 const isValidRole = async( role = '' ) => {
 
@@ -14,7 +18,7 @@ const checkEmail = async( email ) => {
     
     const existEmail = await User.findOne({ email });
     if( existEmail ){
-        throw new Error(`El correo '${ email }' ya se encuentra registrado`);
+        throw new Error(`El correo '${ email }' ya se encuentra registrado.`);
     }
 }
 
@@ -22,10 +26,24 @@ const userExistById = async( id )  => {
 
     const userExist = await User.findById( id );
     if( !userExist ){
-        throw new Error(`El id '${ id }' no existe en la base de datos`);
+        throw new Error(`El id '${ id }' no existe en la base de datos.`);
+    }
+}
+
+const checkCategoryByIdAndState = async( id ) => {
+
+    const category = await Category.findById( id );
+    if( !category ){
+        throw new Error(`El id ${ id } no existe en la base de datos.`)
+    }else if( !category.state ){
+        throw new Error(`El categoria con id: ${ id } esta inactiva. `)
     }
 }
 
 
-
-export { isValidRole, checkEmail, userExistById };
+export { 
+    isValidRole,
+    checkEmail,
+    userExistById,
+    checkCategoryByIdAndState
+};
