@@ -1,4 +1,4 @@
-import { response, text } from "express";
+import { response } from "express";
 
 import {
     Category
@@ -61,9 +61,9 @@ const update = async( req, res = response ) => {
 
     const name = String(req.body.name).toUpperCase();
 
-    const nameExist = await Category.findOne({ name });
+    const nameExists = await Category.findOne({ name });
 
-    if( nameExist ){
+    if( nameExists ){
         return res.json({
             msg: 'El nombre de la categoria ya se encuentra registrado.'
         })

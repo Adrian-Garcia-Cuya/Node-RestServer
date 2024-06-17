@@ -1,5 +1,6 @@
 import { 
     Category,
+    Product,
     Role,
     User
 } from '../models/index.js';
@@ -7,8 +8,8 @@ import {
 
 const isValidRole = async( role = '' ) => {
 
-    const existRole = await Role.findOne({ role });
-    if( !existRole ){
+    const roleExists = await Role.findOne({ role });
+    if( !roleExists ){
         throw new Error(`El rol ${ role } no esta registrado en la base de datos.`);
     }
 }
@@ -16,16 +17,16 @@ const isValidRole = async( role = '' ) => {
 //Verficar la existencia del correo
 const checkEmail = async( email ) => {
     
-    const existEmail = await User.findOne({ email });
-    if( existEmail ){
+    const emailExists = await User.findOne({ email });
+    if( emailExists ){
         throw new Error(`El correo '${ email }' ya se encuentra registrado.`);
     }
 }
 
-const userExistById = async( id )  => {
+const userExistsById = async( id )  => {
 
-    const userExist = await User.findById( id );
-    if( !userExist ){
+    const userExists = await User.findById( id );
+    if( !userExists ){
         throw new Error(`El id '${ id }' no existe en la base de datos.`);
     }
 }
@@ -40,10 +41,18 @@ const checkCategoryByIdAndState = async( id ) => {
     }
 }
 
+const checkProductById = async( id ) => {
+
+    const product = await Product.findById( id );
+    if( !product ){
+        throw new Error(`El producto con id: '${ id }' no existe en la base de datos.`)
+    }
+}
 
 export { 
     isValidRole,
     checkEmail,
-    userExistById,
-    checkCategoryByIdAndState
+    userExistsById,
+    checkCategoryByIdAndState,
+    checkProductById
 };

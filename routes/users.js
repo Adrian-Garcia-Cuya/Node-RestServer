@@ -6,7 +6,7 @@ import {
     usersPut,
     usersPost,
     usersDelete } from '../controllers/users.js';
-import { isValidRole, checkEmail, userExistById } from '../helpers/db-validators.js';
+import { isValidRole, checkEmail, userExistsById } from '../helpers/db-validators.js';
 
 import {
     validateFields,
@@ -25,7 +25,7 @@ router.get('/',[
 
 router.put('/:id', [
     check('id', 'No es un ID valido').isMongoId(),
-    check('id').custom( userExistById ),
+    check('id').custom( userExistsById ),
     check('role').custom( isValidRole ),
     validateFields
 ], usersPut);
@@ -45,7 +45,7 @@ router.delete('/:id', [
     // isAdminRole,
     hasRole('ADMIN_ROLE'),
     check('id', 'No es un ID valido').isMongoId(),
-    check('id').custom( userExistById ),
+    check('id').custom( userExistsById ),
     validateFields
 ], usersDelete);
 
