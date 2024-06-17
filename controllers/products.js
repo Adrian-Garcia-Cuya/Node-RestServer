@@ -3,7 +3,6 @@ import { response } from "express";
 import {
     Product
 } from '../models/index.js';
-import { body } from "express-validator";
 
 const index = async( req, res = response ) => {
 
@@ -14,7 +13,6 @@ const index = async( req, res = response ) => {
     const [ total, products] = await Promise.all([
         Product.countDocuments( query ),
         Product.find( query )
-                .populate('user', 'name')
                 .populate('category', 'name')
                 .skip(Number(from))
                 .limit(Number(limit))
@@ -31,7 +29,6 @@ const show = async( req, res = response ) => {
     const { id } = req.params
 
     const product = await Product.findById( id )
-                                 .populate('user', 'name')
                                  .populate('category', 'name');
 
     res.status(200).json( product );

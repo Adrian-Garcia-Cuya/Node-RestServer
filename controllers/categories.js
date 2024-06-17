@@ -29,7 +29,7 @@ const show = async( req, res = response ) => {
 
     const { id } = req.params
 
-    const category = await Category.findById( id ).populate('user');
+    const category = await Category.findById( id ).populate('user', 'name');
 
     res.status(200).json( category );
 }
