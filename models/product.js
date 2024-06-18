@@ -31,6 +31,9 @@ const productSchema = new Schema({
     available: {
         type: Boolean,
         default: true
+    },
+    img: {
+        type: String
     }
 });
 
@@ -43,5 +46,3 @@ productSchema.methods.toJSON = function(){
 
 const Product = model('Product', productSchema);
 export { Product };
-
-

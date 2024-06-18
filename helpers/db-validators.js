@@ -49,10 +49,21 @@ const checkProductById = async( id ) => {
     }
 }
 
+const allowedCollections = ( collection = '', collections = [] ) => {
+
+    const collectionIncluded = collections.includes( collection );
+    if( !collectionIncluded ){
+        throw new Error(`La coleccion ${ collection } no es permitida, ${ collections }`);
+    }
+    
+    return true;
+}
+
 export { 
     isValidRole,
     checkEmail,
     userExistsById,
     checkCategoryByIdAndState,
-    checkProductById
+    checkProductById,
+    allowedCollections
 };
