@@ -8,7 +8,7 @@ const uploadFile = async( req, res = response ) => {
         return;
     }
     
-    storeFile( req.files )
+    storeFile( req.files, undefined, 'imgs' )
     .then( storeFileName => res.json({ storeFileName }))
     .catch( error => res.json({ error }));
 }
