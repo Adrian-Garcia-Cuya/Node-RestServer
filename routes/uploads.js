@@ -5,11 +5,17 @@ import {
     validateFields,
     validateFileSending
 } from '../middlewares/index.js';
-import { updateFile, uploadFile } from '../controllers/uploads.js';
+import { showImage, updateFile, uploadFile } from '../controllers/uploads.js';
 import { allowedCollections } from '../helpers/index.js';
 
 
 const router = Router();
+
+router.get('/:collection/:id', [
+    check('id', 'El id debe ser de mongo').isMongoId(),
+    check('collection').custom( c => allowedCollections( c, ['users', 'products']) ),
+    validateFields
+], showImage);
 
 router.post('/', validateFileSending, uploadFile);
 
