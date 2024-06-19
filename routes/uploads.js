@@ -5,7 +5,7 @@ import {
     validateFields,
     validateFileSending
 } from '../middlewares/index.js';
-import { showImage, updateFile, uploadFile } from '../controllers/uploads.js';
+import { showImage, updateFileCloudinary, uploadFile } from '../controllers/uploads.js';
 import { allowedCollections } from '../helpers/index.js';
 
 
@@ -24,7 +24,7 @@ router.put('/:collection/:id', [
     check('id', 'El id debe ser de mongo').isMongoId(),
     check('collection').custom( c => allowedCollections( c, ['users', 'products']) ),
     validateFields
-], updateFile)
+], updateFileCloudinary)
 
 
 export { router };
