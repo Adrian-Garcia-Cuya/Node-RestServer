@@ -143,14 +143,12 @@ const showImage = async( req, res = response) => {
             return res.status(500).json({ msg: 'Olvide validar esto' });
     }
 
-    //Limipiar imagenes previas
     if( model.img ){
-        const imagePath = path.join( __dirname, '../uploadss', collection, model.img);
-        
-        if( fs.existsSync(imagePath) ){
-            //Borrar el archivo
-            return res.sendFile( imagePath );
-        }
+        // const imagePath = path.join( __dirname, '../uploads', collection, model.img);
+        return res.json( model );
+        // if( fs.existsSync(imagePath) ){
+            
+        // }
     }
 
     const imagePathNotFound = path.join( __dirname, '../assets/no-image.jpg');
